@@ -1,0 +1,25 @@
+{
+  "name": "sgad-backend",
+  "version": "1.0.0",
+  "description": "sgad",
+  "main": "index.js",
+  "repository": "https://saulovelho@dev.azure.com/saulovelho/SGAD%20PucMinas/_git/SGAD-Backend",
+  "author": "saulo <saulo.velho@transfero.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/service/server.ts",
+    "build": "tsc",
+    "start:prod": "nodenv -f .env ./dist/service/server.js",
+    "start": "node ./dist/service/server.js"
+  }
+}
