@@ -1,9 +1,9 @@
 import { Router } from "express";
-import handleAuthorization from "../../../infrastructure/Implementation/handle_authorization";
+import handleAuthorization from "../../../infrastructure/Implementation/handleAuthorization";
 
 const index = Router();
 
-index.get("/", handleAuthorization, (req, res) => {
+index.get("/", (req, res) => {
   res.send("Index Page");
 });
 
