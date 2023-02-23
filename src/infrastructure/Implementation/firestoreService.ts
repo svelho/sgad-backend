@@ -1,14 +1,24 @@
 import IDatabaseService from "../../domain/interface/iDatabaseService";
 import UserModel from "../../domain/model/userModel";
-import * as admin from "firebase-admin";
-
-admin.initializeApp();
-admin.firestore().settings({ ignoreUndefinedProperties: true });
+import Admin from "../../service/shared/firestoreStart";
 
 class FireStoreService implements IDatabaseService {
+  async getUsers(): Promise<UserModel[]> {
+    const usersdb = Admin.firestore().collection("users");
+    let users: UserModel[] = [];
+    await usersdb
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => users.push(doc.data() as UserModel));
+        return users;
+      })
+      .catch((error) => {
+        console.log("Erro returning users from firestore: ", error);
+      });
+    return users;
+  }
   async createUser(user: UserModel): Promise<boolean> {
-    const returned = admin
-      .firestore()
+    const returned = Admin.firestore()
       .collection("users")
       .doc(user.uid)
       .set({

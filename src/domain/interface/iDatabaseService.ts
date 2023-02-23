@@ -2,6 +2,7 @@ import UserModel from "../model/userModel";
 
 interface IDatabaseService {
   createUser(user: UserModel): Promise<boolean>;
+  getUsers(): Promise<UserModel[]>;
   // updateStatusDeposit(
   //   referenceId: string,
   //   status: DepositStatus

@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import * as admin from "firebase-admin";
+import Admin from "../../service/shared/firestoreStart";
+//import * as admin from "firebase-admin";
 
-admin.initializeApp();
-admin.firestore().settings({ ignoreUndefinedProperties: true });
+// admin.initializeApp();
+//admin.firestore().settings({ ignoreUndefinedProperties: true });
 
 const handleAuthorization = async (
   req: Request,
@@ -21,7 +22,7 @@ const handleAuthorization = async (
     return;
   }
 
-  const decodedToken = await admin.auth().verifyIdToken(authToken);
+  const decodedToken = await Admin.auth().verifyIdToken(authToken);
   console.log(decodedToken);
   if (!decodedToken) {
     res.status(401).send("Authorization header is invalid");

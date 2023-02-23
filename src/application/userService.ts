@@ -19,7 +19,7 @@ class UserService {
   public async createUser(user: UserModel, res: Response) {
     try {
       let returned = await this.create(user);
-      console.log("booleano", returned);
+
       if (returned) return res.status(200).json(user);
       else return res.status(500).json("could not create user");
     } catch (err) {
@@ -35,6 +35,27 @@ class UserService {
 
   public async create(user: UserModel): Promise<boolean> {
     return this.databaseService.createUser(user);
+  }
+
+  public async getUsers(res: Response) {
+    try {
+      let returned = await this.getAllUsers();
+      if (returned && returned.length > 0)
+        return res.status(200).json(returned);
+      else return res.status(500).json("could not retrieve users");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        console.log(err);
+        return res.status(err.status ?? 500).json(err.message);
+      } else {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+      }
+    }
+  }
+
+  public async getAllUsers(): Promise<UserModel[]> {
+    return this.databaseService.getUsers();
   }
 }
 
