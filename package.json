@@ -27,6 +27,7 @@
     "serve": "firebase emulators:start --only functions",
     "serve2": "npm run build && firebase use default && firebase emulators:start --only functions",
     "start:prod": "nodenv -f .env ./dist/service/server.js",
-    "start": "node ./dist/service/server.js"
+    "start": "node ./dist/service/server.js",
+    "deployprod1": "firebase deploy --token {#firebaseToken#}"
   }
 }
