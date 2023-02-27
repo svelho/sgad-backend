@@ -6,6 +6,7 @@ interface IDatabaseService {
   getUsers(): Promise<UserModel[]>;
   createPolicy(policy: PolicyModel): Promise<boolean>;
   getPolicies(): Promise<PolicyModel[]>;
+  deletePolicyById(id: string): Promise<boolean>;
   // updateStatusDeposit(
   //   referenceId: string,
   //   status: DepositStatus

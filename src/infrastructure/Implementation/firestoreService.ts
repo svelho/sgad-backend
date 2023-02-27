@@ -4,13 +4,29 @@ import UserModel from "../../domain/model/userModel";
 import Admin from "../../service/shared/firestoreStart";
 
 class FireStoreService implements IDatabaseService {
+  async deletePolicyById(id: string): Promise<boolean> {
+    const policiesdb = Admin.firestore().collection("policies");
+    let returned: boolean;
+    try {
+      await policiesdb.doc(id).delete();
+      returned = true;
+    } catch (error) {
+      returned = false;
+    }
+
+    return returned;
+  }
   async getPolicies(): Promise<PolicyModel[]> {
     const policiesdb = Admin.firestore().collection("policies");
     let policies: PolicyModel[] = [];
     await policiesdb
       .get()
       .then((snapshot) => {
-        snapshot.forEach((doc) => policies.push(doc.data() as PolicyModel));
+        snapshot.forEach((doc) => {
+          let x = doc.data() as PolicyModel;
+          x.id = doc.id;
+          policies.push(x);
+        });
         return policies;
       })
       .catch((error) => {
@@ -18,7 +34,7 @@ class FireStoreService implements IDatabaseService {
       });
     return policies;
   }
-  createPolicy(policy: PolicyModel): Promise<boolean> {
+  async createPolicy(policy: PolicyModel): Promise<boolean> {
     const returned = Admin.firestore()
       .collection("policies")
       .add({

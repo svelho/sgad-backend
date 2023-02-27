@@ -34,4 +34,20 @@ getPoliciesRouter.get("/policies", async function (req, res) {
   }
 });
 
-export { createPolicyRouter, getPoliciesRouter };
+const deletePolicyRouter = Router();
+
+deletePolicyRouter.delete("/policy/delete/:id", async function (req, res) {
+  try {
+    const id = req.params.id;
+    console.log(`delete policy called by Frontend: ${id}`);
+    const policyService = container.resolve(PolicyService);
+
+    const policy = await policyService.deletePolicyById(id, res);
+    return policy;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Erro ao deletar Policy.");
+  }
+});
+
+export { createPolicyRouter, getPoliciesRouter, deletePolicyRouter };
