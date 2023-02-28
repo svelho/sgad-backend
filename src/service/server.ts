@@ -13,7 +13,7 @@ import {
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: true }));
 const v1 = Router();
 v1.use(indexRouter);
 v1.use(createUserRouter);
