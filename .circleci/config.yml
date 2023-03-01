@@ -10,8 +10,6 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-      # - restore_cache:
-      #     key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Yarn install
           command: "yarn install"
@@ -25,7 +23,6 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths: .
-
       - run:
           name: ls
           comand: ls
