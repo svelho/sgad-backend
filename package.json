@@ -2,7 +2,7 @@
   "name": "sgad-backend",
   "version": "1.0.0",
   "description": "sgad",
-  "main": "./lib/service/server.js",
+  "main": "./build/service/server.js",
   "repository": "https://saulovelho@dev.azure.com/saulovelho/SGAD%20PucMinas/_git/SGAD-Backend",
   "author": "saulo <saulo.velho@transfero.com>",
   "license": "MIT",
