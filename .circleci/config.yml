@@ -20,8 +20,11 @@ jobs:
           paths:
             - ./node_modules
       - run:
-          name: npm run build
-          command: npm run build
+          name: yarn buildprod
+          command: yarn buildprod
+      - run:
+          name: ls
+          command: ls
       - persist_to_workspace:
           root: ~/project
           paths: .

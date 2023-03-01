@@ -25,6 +25,7 @@
   },
   "scripts": {
     "build": "tsc -w &>/dev/null &",
+    "buildprod": "tsc",
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/service/server.ts",
     "serve": "firebase emulators:start --only functions",
     "serve2": "npm run build && firebase use default && firebase emulators:start --only functions",
