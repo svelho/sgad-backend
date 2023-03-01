@@ -25,7 +25,7 @@ jobs:
           paths: .
       - run:
           name: ls
-          comand: ls
+          command: ls
       - run:
           name: Deploy app to Firebase
           command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
