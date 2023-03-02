@@ -34,4 +34,20 @@ getUsersRouter.get("/users", handleAuthorization, async function (req, res) {
   }
 });
 
-export { createUserRouter, getUsersRouter };
+const getUserRouter = Router();
+
+getUserRouter.get("/user/:id", async function (req, res) {
+  try {
+    const id = req.params.id;
+    console.log(`get user called by Frontend: ${id}`);
+    const userService = container.resolve(UserService);
+
+    const user = await userService.getUser(id, res);
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Erro ao recuperar usuário.");
+  }
+});
+
+export { createUserRouter, getUsersRouter, getUserRouter };

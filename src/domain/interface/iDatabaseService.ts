@@ -4,6 +4,7 @@ import UserModel from "../model/userModel";
 interface IDatabaseService {
   createUser(user: UserModel): Promise<boolean>;
   getUsers(): Promise<UserModel[]>;
+  getUser(id: string): Promise<UserModel>;
   createPolicy(policy: PolicyModel): Promise<boolean>;
   getPolicies(): Promise<PolicyModel[]>;
   deletePolicyById(id: string): Promise<boolean>;

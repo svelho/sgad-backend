@@ -19,7 +19,7 @@ class PolicyService {
     try {
       let returned = await this.create(policy);
 
-      if (returned) return res.status(200).json(policy);
+      if (returned) return res.status(204).json("");
       else return res.status(500).json("could not create policy");
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -41,7 +41,7 @@ class PolicyService {
       let returned = await this.getAllPolicies();
       if (returned && returned.length > 0)
         return res.status(200).json(returned);
-      else return res.status(500).json("could not retrieve policies");
+      else return res.status(200).json([]);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         console.log(err);

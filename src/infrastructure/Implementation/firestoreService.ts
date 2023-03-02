@@ -1,9 +1,18 @@
+import { user } from "firebase-functions/v1/auth";
 import IDatabaseService from "../../domain/interface/iDatabaseService";
 import PolicyModel from "../../domain/model/policyModel";
 import UserModel from "../../domain/model/userModel";
 import Admin from "../../service/shared/firestoreStart";
 
 class FireStoreService implements IDatabaseService {
+  async getUser(id: string): Promise<UserModel> {
+    const usersdb = Admin.firestore().collection("users");
+    const doc = await usersdb.doc(id).get();
+    const returned = doc.data() as UserModel;
+    console.log("retornou", returned);
+    return returned;
+  }
+
   async deletePolicyById(id: string): Promise<boolean> {
     const policiesdb = Admin.firestore().collection("policies");
     let returned: boolean;
@@ -73,6 +82,7 @@ class FireStoreService implements IDatabaseService {
   }
 
   async createUser(user: UserModel): Promise<boolean> {
+    console.log("user:", user);
     const returned = Admin.firestore()
       .collection("users")
       .doc(user.uid)
@@ -80,6 +90,9 @@ class FireStoreService implements IDatabaseService {
         name: user.name,
         email: user.email,
         urlPhoto: user.photoUrl,
+        phone: user.phone,
+        position: user.position,
+        area: user.area,
         createAt: new Date(Date.now()),
       })
       .then((writeResult) => {
