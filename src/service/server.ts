@@ -14,6 +14,11 @@ import {
   getPoliciesRouter,
   deletePolicyRouter,
 } from "./routes/V1/policy";
+import {
+  createActivityRouter,
+  getActivitiesRouter,
+  deleteActivityRouter,
+} from "./routes/V1/activity";
 
 const app = express();
 
@@ -25,6 +30,9 @@ router.use(getUsersRouter);
 router.use(createPolicyRouter);
 router.use(getPoliciesRouter);
 router.use(deletePolicyRouter);
+router.use(createActivityRouter);
+router.use(getActivitiesRouter);
+router.use(deleteActivityRouter);
 router.use(getUserRouter);
 var appWithV1 = express();
 appWithV1.use("/v1", router);
