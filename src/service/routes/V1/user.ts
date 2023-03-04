@@ -21,7 +21,7 @@ createUserRouter.post("/user/create", async function (req, res) {
 
 const getUsersRouter = Router();
 
-getUsersRouter.get("/users", handleAuthorization, async function (req, res) {
+getUsersRouter.get("/users", async function (req, res) {
   try {
     console.log(`Get Users called by Frontend:`, req.body);
     const userService = container.resolve(UserService);

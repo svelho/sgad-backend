@@ -19,6 +19,11 @@ import {
   getActivitiesRouter,
   deleteActivityRouter,
 } from "./routes/V1/activity";
+import {
+  createPlanningRouter,
+  getPlanningListRouter,
+  deletePlanningRouter,
+} from "./routes/V1/planning";
 
 const app = express();
 
@@ -33,6 +38,9 @@ router.use(deletePolicyRouter);
 router.use(createActivityRouter);
 router.use(getActivitiesRouter);
 router.use(deleteActivityRouter);
+router.use(createPlanningRouter);
+router.use(getPlanningListRouter);
+router.use(deletePlanningRouter);
 router.use(getUserRouter);
 var appWithV1 = express();
 appWithV1.use("/v1", router);

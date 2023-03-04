@@ -54,7 +54,7 @@ class PolicyService {
   }
 
   public async getAllPolicies(): Promise<PolicyModel[]> {
-    return this.databaseService.getPolicies();
+    return await this.databaseService.getPolicies();
   }
 
   public async deletePolicyById(id: string, res: Response) {

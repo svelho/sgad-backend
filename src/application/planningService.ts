@@ -2,11 +2,11 @@ import { Router, Response } from "express";
 import axios from "axios";
 import { inject, injectable } from "tsyringe";
 import IDatabaseService from "../domain/interface/iDatabaseService";
-import ActivityModel from "../domain/model/activityModel";
+import PlanningModel from "../domain/model/planningModel";
 const router = Router();
 
 @injectable()
-class ActivityService {
+class PlanningService {
   private databaseService: IDatabaseService;
   constructor(
     @inject("DatabaseService")
@@ -15,12 +15,12 @@ class ActivityService {
     this.databaseService = databaseService;
   }
 
-  public async createActivity(activity: ActivityModel, res: Response) {
+  public async createPlanning(planning: PlanningModel, res: Response) {
     try {
-      let returned = await this.create(activity);
+      let returned = await this.create(planning);
 
       if (returned) return res.status(204).json("");
-      else return res.status(500).json("could not create activity");
+      else return res.status(500).json("could not create planning");
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         console.log(err);
@@ -32,13 +32,13 @@ class ActivityService {
     }
   }
 
-  public async create(activity: ActivityModel): Promise<boolean> {
-    return await this.databaseService.createActivity(activity);
+  public async create(planning: PlanningModel): Promise<boolean> {
+    return await this.databaseService.createPlanning(planning);
   }
 
-  public async getActivities(res: Response) {
+  public async getPlanningList(res: Response) {
     try {
-      let returned = await this.getAllActivities();
+      let returned = await this.getAllPlanningList();
       if (returned && returned.length > 0)
         return res.status(200).json(returned);
       else return res.status(200).json([]);
@@ -53,16 +53,16 @@ class ActivityService {
     }
   }
 
-  public async getAllActivities(): Promise<ActivityModel[]> {
-    return await this.databaseService.getActivities();
+  public async getAllPlanningList(): Promise<PlanningModel[]> {
+    return await this.databaseService.getPlanningList();
   }
 
-  public async deleteActivityById(id: string, res: Response) {
+  public async deletePlanningById(id: string, res: Response) {
     try {
       let returned = await this.delete(id);
 
-      if (returned) return res.status(204).json("");
-      else return res.status(500).json("could not delete activity");
+      if (returned) return res.status(200).json({});
+      else return res.status(500).json("could not delete planning");
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         console.log(err);
@@ -75,10 +75,10 @@ class ActivityService {
   }
 
   public async delete(id: string): Promise<boolean> {
-    const returned = await this.databaseService.deleteActivityById(id);
+    const returned = await this.databaseService.deletePlanningById(id);
     console.log(returned);
     return returned;
   }
 }
 
-export default ActivityService;
+export default PlanningService;

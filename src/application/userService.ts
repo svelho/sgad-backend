@@ -34,7 +34,7 @@ class UserService {
   }
 
   public async create(user: UserModel): Promise<boolean> {
-    return this.databaseService.createUser(user);
+    return await this.databaseService.createUser(user);
   }
 
   public async getUsers(res: Response) {
@@ -55,7 +55,7 @@ class UserService {
   }
 
   public async getAllUsers(): Promise<UserModel[]> {
-    return this.databaseService.getUsers();
+    return await this.databaseService.getUsers();
   }
 
   public async getUser(id: string, res: Response) {
@@ -76,7 +76,7 @@ class UserService {
   }
 
   public async getUserById(id: string): Promise<UserModel> {
-    return this.databaseService.getUser(id);
+    return await this.databaseService.getUser(id);
   }
 }
 

@@ -1,13 +1,72 @@
 import { user } from "firebase-functions/v1/auth";
 import IDatabaseService from "../../domain/interface/iDatabaseService";
 import ActivityModel from "../../domain/model/activityModel";
+import PlanningModel from "../../domain/model/planningModel";
 import PolicyModel from "../../domain/model/policyModel";
 import UserModel from "../../domain/model/userModel";
 import Admin from "../../service/shared/firestoreStart";
 
 class FireStoreService implements IDatabaseService {
-  createActivity(activity: ActivityModel): Promise<boolean> {
+  async createPlanning(planning: PlanningModel): Promise<boolean> {
     const returned = Admin.firestore()
+      .collection("planning")
+      .add({
+        name: planning.name,
+        activity: planning.activity,
+        objective: planning.objective,
+        goal1: planning.goal1,
+        goal2: planning.goal2,
+        goal3: planning.goal3,
+        policies: planning.policies,
+        stakeholders: planning.stakeholders,
+        initialDate: planning.initialDate,
+        createAt: new Date(Date.now()),
+      })
+      .then((writeResult) => {
+        console.log("Planning Created result:", writeResult);
+        return true;
+      })
+      .catch((error) => {
+        console.log(
+          "Something went wrong with added planning to firestore: ",
+          error
+        );
+        return false;
+      });
+    return returned;
+  }
+  async getPlanningList(): Promise<PlanningModel[]> {
+    const planningdb = Admin.firestore().collection("planning");
+    let planningList: PlanningModel[] = [];
+    await planningdb
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          let x = doc.data() as PlanningModel;
+          x.id = doc.id;
+          planningList.push(x);
+        });
+        return planningList;
+      })
+      .catch((error) => {
+        console.log("Erro returning planning list from firestore: ", error);
+      });
+    return planningList;
+  }
+  async deletePlanningById(id: string): Promise<boolean> {
+    const planningdb = Admin.firestore().collection("planning");
+    let returned: boolean;
+    try {
+      await planningdb.doc(id).delete();
+      returned = true;
+    } catch (error) {
+      returned = false;
+    }
+
+    return returned;
+  }
+  async createActivity(activity: ActivityModel): Promise<boolean> {
+    const returned = await Admin.firestore()
       .collection("activities")
       .add({
         title: activity.title,
@@ -97,7 +156,7 @@ class FireStoreService implements IDatabaseService {
     return policies;
   }
   async createPolicy(policy: PolicyModel): Promise<boolean> {
-    const returned = Admin.firestore()
+    const returned = await Admin.firestore()
       .collection("policies")
       .add({
         title: policy.title,
@@ -136,7 +195,7 @@ class FireStoreService implements IDatabaseService {
 
   async createUser(user: UserModel): Promise<boolean> {
     console.log("user:", user);
-    const returned = Admin.firestore()
+    const returned = await Admin.firestore()
       .collection("users")
       .doc(user.uid)
       .set({
