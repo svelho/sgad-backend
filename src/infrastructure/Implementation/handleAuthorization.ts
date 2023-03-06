@@ -9,7 +9,7 @@ const handleAuthorization = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<Response<any, Record<string, any>>> => {
+): Promise<any> => {
   const authHeader = req.header("Authorization");
   if (!authHeader) {
     return res.status(401).send("Authorization header is missing");
@@ -30,7 +30,7 @@ const handleAuthorization = async (
 
     req.user = decodedToken;
     next();
-    return res.status(200).send("Authorization header is valid");
+    //return res.status(200).send("Authorization header is valid");
   } catch (error) {
     console.log(error);
     return res.status(401).send("Authorization header is invalid");
