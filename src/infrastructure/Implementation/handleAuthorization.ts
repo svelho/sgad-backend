@@ -9,27 +9,31 @@ const handleAuthorization = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {
+): Promise<Response<any, Record<string, any>>> => {
   const authHeader = req.header("Authorization");
   if (!authHeader) {
-    res.status(401).send("Authorization header is missing");
-    return;
+    return res.status(401).send("Authorization header is missing");
   }
 
   const authToken = authHeader.split(" ")[1];
   if (!authToken) {
-    res.status(401).send("Authorization header is missing");
-    return;
+    return res.status(401).send("Authorization header is missing");
   }
+  console.log("chegou mais cedo");
 
-  const decodedToken = await Admin.auth().verifyIdToken(authToken);
-  console.log(decodedToken);
-  if (!decodedToken) {
-    res.status(401).send("Authorization header is invalid");
-    return;
+  try {
+    const decodedToken = await Admin.auth().verifyIdToken(authToken);
+
+    if (!decodedToken) {
+      return res.status(401).send("Authorization header is invalid");
+    }
+
+    req.user = decodedToken;
+    next();
+    return res.status(200).send("Authorization header is valid");
+  } catch (error) {
+    console.log(error);
+    return res.status(401).send("Authorization header is invalid");
   }
-
-  req.user = decodedToken;
-  next();
 };
 export default handleAuthorization;

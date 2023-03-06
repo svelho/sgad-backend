@@ -21,33 +21,41 @@ createPolicyRouter.post("/policy/create", async function (req, res) {
 
 const getPoliciesRouter = Router();
 
-getPoliciesRouter.get("/policies", async function (req, res) {
-  try {
-    console.log(`Get Policies called by Frontend:`, req.body);
-    const policyService = container.resolve(PolicyService);
+getPoliciesRouter.get(
+  "/policies",
+  handleAuthorization,
+  async function (req, res) {
+    try {
+      console.log(`Get Policies called by Frontend:`, req.body);
+      const policyService = container.resolve(PolicyService);
 
-    const policy = await policyService.getPolicies(res);
-    return policy;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Erro ao buscar Policy.");
+      const policy = await policyService.getPolicies(res);
+      return policy;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Erro ao buscar Policy.");
+    }
   }
-});
+);
 
 const deletePolicyRouter = Router();
 
-deletePolicyRouter.delete("/policy/delete/:id", async function (req, res) {
-  try {
-    const id = req.params.id;
-    console.log(`delete policy called by Frontend: ${id}`);
-    const policyService = container.resolve(PolicyService);
+deletePolicyRouter.delete(
+  "/policy/delete/:id",
+  handleAuthorization,
+  async function (req, res) {
+    try {
+      const id = req.params.id;
+      console.log(`delete policy called by Frontend: ${id}`);
+      const policyService = container.resolve(PolicyService);
 
-    const policy = await policyService.deletePolicyById(id, res);
-    return policy;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Erro ao deletar Policy.");
+      const policy = await policyService.deletePolicyById(id, res);
+      return policy;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Erro ao deletar Policy.");
+    }
   }
-});
+);
 
 export { createPolicyRouter, getPoliciesRouter, deletePolicyRouter };
