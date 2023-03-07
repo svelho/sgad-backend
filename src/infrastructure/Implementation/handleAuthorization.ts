@@ -19,7 +19,6 @@ const handleAuthorization = async (
   if (!authToken) {
     return res.status(401).send("Authorization header is missing");
   }
-  console.log("chegou mais cedo");
 
   try {
     const decodedToken = await Admin.auth().verifyIdToken(authToken);
@@ -30,7 +29,6 @@ const handleAuthorization = async (
 
     req.user = decodedToken;
     next();
-    //return res.status(200).send("Authorization header is valid");
   } catch (error) {
     console.log(error);
     return res.status(401).send("Authorization header is invalid");
